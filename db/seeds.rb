@@ -7,9 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 require 'nokogiri'
 
-#xml_doc = Nokogiri::XML("")
-
-f = File.open("1998statistics.xml")
+f = File.open(File.join(Rails.root, 'db', '1998statistics.xml'))
 doc = Nokogiri::XML(f)
 f.close
 players = doc.xpath("//PLAYER[POSITION='Designated Hitter']")
@@ -75,6 +73,6 @@ players.each do |player|
   ops = obp+slp
   #puts "#{surname} #{given_name} #{year}"
   #puts"#{avg.round(2)}\t#{hr.round(2)}\t#{rbi.round(2)}\t#{runs.round(2)}\t#{sb.round(2)}\t#{ops.round(2)}"
-  Players.create(year: year, surname: surename, given_name: given_name, avg: avg, hr: hr, rbi: rbi, runs: runs, sb: sb, ops: ops)
+  Player.create(year: year, surname: surname, given_name: given_name, avg: avg, hr: hr, rbi: rbi, runs: runs, sb: sb, ops: ops)
 end
 
