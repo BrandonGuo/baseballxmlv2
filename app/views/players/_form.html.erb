@@ -1,0 +1,53 @@
+<%= form_for(@player) do |f| %>
+  <% if @player.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@player.errors.count, "error") %> prohibited this player from being saved:</h2>
+
+      <ul>
+      <% @player.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :year %><br>
+    <%= f.number_field :year %>
+  </div>
+  <div class="field">
+    <%= f.label :surname %><br>
+    <%= f.text_field :surname %>
+  </div>
+  <div class="field">
+    <%= f.label :given_name %><br>
+    <%= f.text_field :given_name %>
+  </div>
+  <div class="field">
+    <%= f.label :avg %><br>
+    <%= f.text_field :avg %>
+  </div>
+  <div class="field">
+    <%= f.label :hr %><br>
+    <%= f.text_field :hr %>
+  </div>
+  <div class="field">
+    <%= f.label :rbi %><br>
+    <%= f.text_field :rbi %>
+  </div>
+  <div class="field">
+    <%= f.label :runs %><br>
+    <%= f.text_field :runs %>
+  </div>
+  <div class="field">
+    <%= f.label :sb %><br>
+    <%= f.text_field :sb %>
+  </div>
+  <div class="field">
+    <%= f.label :ops %><br>
+    <%= f.text_field :ops %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
