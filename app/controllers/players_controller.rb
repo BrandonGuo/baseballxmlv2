@@ -4,7 +4,9 @@ class PlayersController < ApplicationController
   # GET /players
   # GET /players.json
   def index
-    @players = Player.all
+    @players = Player.order('avg DESC').take(25)
+    #@players = Player.all
+    
   end
 
   # GET /players/1
