@@ -10,7 +10,7 @@ require 'nokogiri'
 f = File.open(File.join(Rails.root, 'db', '1998statistics.xml'))
 doc = Nokogiri::XML(f)
 f.close
-players = doc.xpath("//PLAYER[POSITION='Designated Hitter']")
+players = doc.xpath("//PLAYER[POSITION!='Relief Pitcher' and POSITION!='Starting Pitcher']")
 year = doc.xpath("//YEAR")
 year = year[0].content 
 players.each do |player|
@@ -28,7 +28,7 @@ players.each do |player|
   #puts ab
 
   runs = player.xpath("RUNS")
-  runs = runs[0].content.to_f
+  runs = runs[0].content.to_i
   #puts runs
 
   hits = player.xpath("HITS")
@@ -44,19 +44,19 @@ players.each do |player|
   #puts triples
 
   home_runs = player.xpath("HOME_RUNS")
-  hr = home_runs[0].content.to_f
+  hr = home_runs[0].content.to_i
   #puts hr
 
   rbi = player.xpath("RBI")
-  rbi = rbi[0].content.to_f
+  rbi = rbi[0].content.to_i
   #puts rbi
 
   steals = player.xpath("STEALS")
-  sb = steals[0].content.to_f
+  sb = steals[0].content.to_i
   #puts sb
 
   sacrifice_flies = player.xpath("SACRIFICE_FLIES")
-  sf = sacrifice_flies[0].content.to_f
+  sf = sacrifice_flies[0].content.to_i
   #puts sf
 
   walks = player.xpath("WALKS")
@@ -67,12 +67,23 @@ players.each do |player|
   hbp = hit_by_pitch[0].content.to_f
   #puts hbp
   
-  avg = hits/ab
-  obp = (hits + walks + hbp)/(ab-hr+sf)
-  slp = (hits + doubles + triples*2+hr*3)/ab
+  #check 0
+  if ab == 0
+    avg = 0
+    slp = 0
+  else 
+    avg = hits/ab
+    slp = (hits + doubles + triples*2+hr*3)/ab
+  end
+  
+  if (ab-hr+sf) == 0
+    obp = 0
+  else
+    obp = (hits + walks + hbp)/(ab-hr+sf)
+  end
   ops = obp+slp
   #puts "#{surname} #{given_name} #{year}"
   #puts"#{avg.round(2)}\t#{hr.round(2)}\t#{rbi.round(2)}\t#{runs.round(2)}\t#{sb.round(2)}\t#{ops.round(2)}"
-  Player.create(year: year, surname: surname, given_name: given_name, avg: avg, hr: hr, rbi: rbi, runs: runs, sb: sb, ops: ops)
+  Player.create(year: year, surname: surname, given_name: given_name, avg: (avg*100).round(2), hr: hr, rbi: rbi, runs: runs, sb: sb, ops: (ops*100).round(2))
 end
 

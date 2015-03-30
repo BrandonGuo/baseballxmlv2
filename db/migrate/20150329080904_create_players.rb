@@ -5,10 +5,10 @@ class CreatePlayers < ActiveRecord::Migration
       t.string :surname
       t.string :given_name
       t.float :avg
-      t.float :hr
-      t.float :rbi
-      t.float :runs
-      t.float :sb
+      t.integer :hr
+      t.integer :rbi
+      t.integer :runs
+      t.integer :sb
       t.float :ops
 
       t.timestamps null: false
