@@ -1,14 +1,14 @@
 class PlayersController < ApplicationController
   before_action :set_player, only: [:show, :edit, :update, :destroy]
+  helper_method :sort_column, :sort_direction
 
   # GET /players
   # GET /players.json
   def index
-    @players = Player.order('avg DESC').take(25)
+    #@players = Player.order('avg DESC').take(25)
     #@players = Player.all
-    
+    @players = Player.order(sort_column + " " + sort_direction)#.paginate(:perpage => 25, :page => params[:page])
   end
-
   # GET /players/1
   # GET /players/1.json
   def show
@@ -73,4 +73,14 @@ class PlayersController < ApplicationController
     def player_params
       params.require(:player).permit(:year, :surname, :given_name, :avg, :hr, :rbi, :runs, :sb, :ops)
     end
+    
+    def sort_column
+      Player.column_names.include?(params[:sort]) ? params[:sort] : "avg"
+    end
+    
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
+
+    end
+    
 end
