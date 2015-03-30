@@ -7,7 +7,7 @@ class PlayersController < ApplicationController
   def index
     #@players = Player.order('avg DESC').take(25)
     #@players = Player.all
-    @players = Player.order(sort_column + " " + sort_direction)#.paginate(:perpage => 25, :page => params[:page])
+    @players = Player.search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 25, :page => params[:page])
   end
   # GET /players/1
   # GET /players/1.json

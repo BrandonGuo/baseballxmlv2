@@ -2,6 +2,14 @@
 
 <h1>Listing Players</h1>
 
+<%= form_tag players_path, :method => 'get', :id => "players_search" do %>
+  <p>
+    <%= text_field_tag :search, params[:search] %>
+    <%= submit_tag "Search Year", :year => nil %>
+  </p>
+  
+<% end %>
+
 <table>
   <thead>
     <tr>
@@ -39,7 +47,7 @@
     <% end %>
   </tbody>
 </table>
-
+<%= will_paginate @players %>
 <br>
 
 <!--
